@@ -1,28 +1,3 @@
-body {
-    background: #ccc;
-}
-
 table {
-    border-collapse: collapse;
-
-}
-
-table th, td {
-    text-align: center;
-}
-
-.inputSection {
-    margin-bottom: 50px;
-}
-
-.btn {
-    background: green;
-    color: #fff;
-    width: 70px;
-    font-size: 1rem;
-}
-
-.btn:hover {
-    background: black;
-    color: #fff;
+    border-collapse:collapse;
 }
