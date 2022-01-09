@@ -13,6 +13,7 @@ const App = () => {
   const [status, setStatus] = useState('');
   const [select, setSelect] = useState(null);
   const [title, setTitle] = useState('');
+  const [key, setKey] = useState('');
 
   //Delete
 
@@ -44,18 +45,44 @@ const App = () => {
     setStatus(value.status);
   };
 
-
   const onEditSave = () => {
-    const newArray = data.map((value) => select == value.id ? { ...value, name: title, status: status } : value);
+    const newArray = data.map((value) =>
+      select == value.id ? { ...value, name: title, status: status } : value
+    );
 
     setData(newArray);
-    setSelect(null)
-  }
+    setSelect(null);
+  };
 
+  // Search
 
+  const onSearch = (e) => {
+    const newArray = data.filter((value) =>
+      value.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setData(newArray);
+
+    if (e.target.value == '') {
+      setData([
+        { id: 1, name: 'Eshmat', status: 'Student' },
+        { id: 2, name: 'Toshmat', status: 'Mentor' },
+        { id: 3, name: 'Gulmat', status: 'Developer' },
+        { id: 4, name: 'Gulbashakar', status: 'Tester' },
+      ]);
+    }
+  };
 
   return (
     <div>
+      <div style={{ marginBottom: '50px' }}>
+        <input onChange={onSearch} type='text' placeholder='search' />
+
+        <select onChange={(e) => setKey(e.target.value)}>
+          <option value='name'>name</option>
+          <option value='status'>status</option>
+        </select>
+      </div>
+
       <input
         onChange={(e) => setName(e.target.value)}
         type='text'
@@ -81,17 +108,36 @@ const App = () => {
             return (
               <tr key={value.id}>
                 <td>{value.id}</td>
-                <td>{select == value.id ? <input onChange={(e)=> setTitle(e.target.value)} type="text" value={title}/> : value.name}</td>
-                <td>{select == value.id ? <input onChange={(e) => setStatus(e.target.value)} type="text" value={status}/> : value.status}</td>
+                <td>
+                  {select == value.id ? (
+                    <input
+                      onChange={(e) => setTitle(e.target.value)}
+                      type='text'
+                      value={title}
+                    />
+                  ) : (
+                    value.name
+                  )}
+                </td>
+                <td>
+                  {select == value.id ? (
+                    <input
+                      onChange={(e) => setStatus(e.target.value)}
+                      type='text'
+                      value={status}
+                    />
+                  ) : (
+                    value.status
+                  )}
+                </td>
                 <td>
                   <button onClick={() => onDelete(value.id)}>delete</button>
 
-                  {select == value.id
-                    ? 
+                  {select == value.id ? (
                     <button onClick={onEditSave}>save</button>
-                   : 
+                  ) : (
                     <button onClick={() => getEdit(value)}>edit</button>
-                  }
+                  )}
                 </td>
               </tr>
             );
